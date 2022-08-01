@@ -1,0 +1,18 @@
+.main {
+  .input_bus_stop_code {
+    position: relative;
+    width: 50vw;
+    border: 2px solid rgba(0, 0, 0, 0.8);
+    border-radius: 8px;
+    margin: 5px;
+  }
+
+  .bus_no {
+    color: #e1e1e1;
+    background-color: #1b1b1b;
+  }
+  .arr_time {
+    color: #1b1b1b;
+    background-color: #e1e1e1;
+  }
+}
