@@ -56,7 +56,7 @@ const BusServices = () => {
         setArrivalTimings([]);
       }
     });
-  }, [busStopCode, serviceNo, fetchBusData]);
+  }, [busStopCode, serviceNo]);
 
   return (
     <div className={styles.main}>
@@ -78,12 +78,16 @@ const BusServices = () => {
         </Grid>
         {arrivalTimings.map((timing) => {
           return (
-            <Grid templateColumns="repeat(7, 1fr)">
-              <GridItem key={timing.ServiceNo} className={styles.bus_no} colSpan={5}>
+            <Grid key={timing.ServiceNo} templateColumns="repeat(7, 1fr)">
+              <GridItem className={styles.bus_no} colSpan={5}>
                 {timing.ServiceNo}
               </GridItem>
-              <GridItem key={timing.ServiceNo} className={styles.arr_time} colSpan={2}>
-                {timing.ArrivalTimeInMins < 0 ? 'Left' : timing.ArrivalTimeInMins + ' Mins'}
+              <GridItem className={styles.arr_time} colSpan={2}>
+                {timing.ArrivalTimeInMins < 0
+                  ? 'Left'
+                  : timing.ArrivalTimeInMins === 0
+                  ? 'Arriving'
+                  : timing.ArrivalTimeInMins + ' Mins'}
               </GridItem>
             </Grid>
           );
