@@ -5,7 +5,6 @@ class MyDocument extends Document {
     return (
       <Html lang="en">
         <Head>
-          <title>SG Bus</title>
           <link
             href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap"
             rel="stylesheet"
