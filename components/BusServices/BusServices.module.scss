@@ -4,6 +4,17 @@
   position: relative;
   height: 100vh;
 
+  .input_bus_stop_code {
+    display: flex;
+    border: 2px solid rgba(0, 0, 0, 0.8);
+    border-radius: 8px;
+    margin: 5px;
+    width: 72vw;
+    text-align: left;
+    padding: 5px;
+    font-family: Montserrat, sans-serif;
+  }
+
   .bus_stop_desc {
     font-family: Montserrat, sans-serif;
   }
@@ -14,17 +25,6 @@
         font-family: 'Montserrat', sans-serif;
         font-size: 24px;
       }
-    }
-
-    .input_bus_stop_code {
-      display: flex;
-      border: 2px solid rgba(0, 0, 0, 0.8);
-      border-radius: 8px;
-      margin: 5px;
-      width: 72vw;
-      text-align: left;
-      padding: 5px;
-      font-family: Montserrat, sans-serif;
     }
 
     .bus_no_container {
