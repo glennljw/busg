@@ -4,58 +4,64 @@
   position: relative;
   height: 100vh;
 
-  .header_container {
-    .header_title {
-      font-family: 'Montserrat', sans-serif;
-      font-size: 24px;
-    }
-  }
-
-  .input_bus_stop_code {
-    display: flex;
-    border: 2px solid rgba(0, 0, 0, 0.8);
-    border-radius: 8px;
-    margin: 5px;
-    width: 72vw;
-    text-align: left;
-    padding: 5px;
+  .bus_stop_desc {
     font-family: Montserrat, sans-serif;
   }
 
-  .bus_no_container {
-    position: relative;
-    left: 1%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    padding: 5%;
-    color: colours.$white;
-    background-color: colours.$black;
-    width: 50%;
-    border: 2px solid colours.$white;
-    border-radius: 20px;
-
-    .bus_no {
-      font-size: 48px;
-      font-family: 'Montserrat', sans-serif;
+  .body {
+    .header_container {
+      .header_title {
+        font-family: 'Montserrat', sans-serif;
+        font-size: 24px;
+      }
     }
-  }
 
-  .arr_time_container {
-    display: flex;
-    justify-content: center;
-    justify-self: center;
-    align-items: center;
-    color: colours.$black;
-    background-color: colours.$white;
-    width: 90%;
-    border: 2px solid colours.$black;
-    border-radius: 20px;
-    padding: 5px;
+    .input_bus_stop_code {
+      display: flex;
+      border: 2px solid rgba(0, 0, 0, 0.8);
+      border-radius: 8px;
+      margin: 5px;
+      width: 72vw;
+      text-align: left;
+      padding: 5px;
+      font-family: Montserrat, sans-serif;
+    }
 
-    .arr_time {
-      font-family: 'Montserrat', sans-serif;
-      font-size: clamp(40px, 50px, 90%);
+    .bus_no_container {
+      position: relative;
+      left: 1%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 5%;
+      color: colours.$white;
+      background-color: colours.$black;
+      width: 50%;
+      border: 2px solid colours.$white;
+      border-radius: 20px;
+
+      .bus_no {
+        font-size: 48px;
+        font-family: 'Montserrat', sans-serif;
+      }
+    }
+
+    .arr_time_container {
+      display: flex;
+      justify-content: center;
+      justify-self: center;
+      align-items: center;
+      color: colours.$black;
+      background-color: colours.$white;
+      width: 90%;
+      border: 2px solid colours.$black;
+      border-radius: 20px;
+      padding: 5px;
+
+      .arr_time {
+        font-family: 'Montserrat', sans-serif;
+        font-size: clamp(40px, 50px, 90%);
+      }
     }
   }
 }

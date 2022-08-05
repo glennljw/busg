@@ -1,21 +1,28 @@
-import axios from 'axios';
 import styles from './BusServices.module.scss';
-import { BusArrivalEndpointDataType, BusServiceNoAndArrival } from '../../types/buses';
+import { BusArrivalEndpointDataType, BusServiceNoAndArrival, LTABusStops } from '../../types/buses';
 import { Grid, GridItem, Input, Text } from '@chakra-ui/react';
-import { useEffect, useState } from 'react';
-import BusStops from './BusStops';
+import { useEffect, useMemo, useState } from 'react';
+import { fetchBusData, fetchBusStopDesc, parseTime } from '../../library/busservices';
 
 const BusServices = () => {
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [loadStates, setLoadStates] = useState<{ isDescLoaded: boolean; isTimeLoaded: boolean }>({
+    isDescLoaded: false,
+    isTimeLoaded: false,
+  });
+  const [busStopArr, setBusStopArr] = useState<LTABusStops[]>([]);
   const [busStopCode, setBusStopCode] = useState<string>('');
+  const [busStopDesc, setBusStopDesc] = useState<string>('');
   const [serviceNo, setServiceNo] = useState<string>('');
   const [isInvalidCode, setIsInvalidCode] = useState<boolean>(false);
   const [arrivalTimings, setArrivalTimings] = useState<BusServiceNoAndArrival[]>([]);
+
+  const isLoaded = useMemo(() => loadStates.isDescLoaded && loadStates.isTimeLoaded, [loadStates]);
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
       if (e.target.value.length === 5) {
         setIsInvalidCode(false);
+        setLoadStates({ ...loadStates, isTimeLoaded: false });
         setBusStopCode(e.target.value);
       } else {
         setBusStopCode('');
@@ -24,22 +31,28 @@ const BusServices = () => {
     }
   };
 
-  const fetchBusData = async () => {
-    const serviceInfo = await axios.get(`/api/busservices/${busStopCode}/${serviceNo}`);
-    return serviceInfo;
-  };
-
-  const parseTime = (time: string) => {
-    let currentTime = new Date();
-    let arrivalTime = new Date(Date.parse(time));
-    const timeDifferenceInMs = arrivalTime.getTime() - currentTime.getTime();
-    const timeDifferenceInMins = timeDifferenceInMs / 1000 / 60;
-    const estArrivalTimeInMins = Math.floor(timeDifferenceInMins);
-    return estArrivalTimeInMins;
-  };
+  useEffect(() => {
+    fetchBusStopDesc()
+      .then((res) => {
+        setBusStopArr(res);
+      })
+      .finally(() => {
+        setLoadStates({ ...loadStates, isDescLoaded: true });
+      });
+  }, []);
 
   useEffect(() => {
-    fetchBusData()
+    if (loadStates.isDescLoaded) {
+      const filteredBusStop: LTABusStops[] = busStopArr.filter((busStop) => {
+        return busStop.BusStopCode === busStopCode;
+      });
+      const desc = filteredBusStop[0]?.Description ?? '';
+      setBusStopDesc(desc);
+    }
+  }, [busStopCode, isLoaded]);
+
+  useEffect(() => {
+    fetchBusData(busStopCode, serviceNo)
       .then((res) => {
         const busServices: BusArrivalEndpointDataType['Services'] = res.data;
 
@@ -60,9 +73,56 @@ const BusServices = () => {
         }
       })
       .finally(() => {
-        setIsLoaded(true);
+        setLoadStates({ ...loadStates, isTimeLoaded: true });
       });
   }, [busStopCode, serviceNo]);
+
+  const renderTimings = () => {
+    if (!loadStates.isDescLoaded) {
+      return <Text fontSize="3xl">Loading...</Text>;
+    } else {
+      return busStopCode === '' ? (
+        <div></div>
+      ) : loadStates.isTimeLoaded ? (
+        <div className={styles.body}>
+          <Grid gap={4} templateColumns="repeat(1, 1fr)">
+            <Grid templateColumns="repeat(7, 1fr)">
+              <GridItem className={styles.header_container} colSpan={5}>
+                <Text className={styles.header_title}>Bus No.</Text>
+              </GridItem>
+              <GridItem className={styles.header_container} colSpan={2}>
+                <Text className={styles.header_title}>Arrival</Text>
+              </GridItem>
+            </Grid>
+          </Grid>
+          {arrivalTimings.length === 0 ? (
+            <Text fontSize="4xl">No buses available</Text>
+          ) : (
+            arrivalTimings.map((timing) => {
+              return (
+                <Grid key={timing.ServiceNo} templateColumns="repeat(7, 1fr)">
+                  <GridItem className={styles.bus_no_container} colSpan={5}>
+                    <Text className={styles.bus_no}>{timing.ServiceNo}</Text>
+                  </GridItem>
+                  <GridItem className={styles.arr_time_container} colSpan={2}>
+                    <Text className={styles.arr_time}>
+                      {timing.ArrivalTimeInMins < 0
+                        ? 'Left'
+                        : timing.ArrivalTimeInMins === 0
+                        ? 'Arr'
+                        : timing.ArrivalTimeInMins}
+                    </Text>
+                  </GridItem>
+                </Grid>
+              );
+            })
+          )}
+        </div>
+      ) : (
+        <Text fontSize="3xl">Loading bus timing...</Text>
+      );
+    }
+  };
 
   return (
     <div className={styles.main}>
@@ -75,39 +135,10 @@ const BusServices = () => {
         size="m"
         onKeyDown={handleKeyDown}
       />
-      <BusStops busStopCode={busStopCode} isParentLoaded={isLoaded} />
-      <Grid gap={4} templateColumns="repeat(1, 1fr)">
-        <Grid templateColumns="repeat(7, 1fr)">
-          <GridItem className={styles.header_container} colSpan={5}>
-            <Text className={styles.header_title}>Bus No.</Text>
-          </GridItem>
-          <GridItem className={styles.header_container} colSpan={2}>
-            <Text className={styles.header_title}>Arrival</Text>
-          </GridItem>
-        </Grid>
-        {isLoaded ? (
-          arrivalTimings.map((timing) => {
-            return (
-              <Grid key={timing.ServiceNo} templateColumns="repeat(7, 1fr)">
-                <GridItem className={styles.bus_no_container} colSpan={5}>
-                  <Text className={styles.bus_no}>{timing.ServiceNo}</Text>
-                </GridItem>
-                <GridItem className={styles.arr_time_container} colSpan={2}>
-                  <Text className={styles.arr_time}>
-                    {timing.ArrivalTimeInMins < 0
-                      ? 'Left'
-                      : timing.ArrivalTimeInMins === 0
-                      ? 'Arr'
-                      : timing.ArrivalTimeInMins}
-                  </Text>
-                </GridItem>
-              </Grid>
-            );
-          })
-        ) : (
-          <Text fontSize="6xl"> Loading bus timings...</Text>
-        )}
-      </Grid>
+      <Text className={styles.bus_stop_desc} fontSize="3xl">
+        {busStopDesc}
+      </Text>
+      {renderTimings()}
     </div>
   );
 };
