@@ -2,6 +2,10 @@ export interface BusArrivalEndpointDataType {
   Services: LTABusArrival[];
 }
 
+export interface BusStopsEndpointDataType {
+  value: LTABusStops[];
+}
+
 export interface LTABusArrival {
   ServiceNo: string;
   Operator: string;
@@ -38,6 +42,14 @@ export interface LTABusArrival {
     Feature: string;
     Type: string;
   };
+}
+
+export interface LTABusStops {
+  BusStopCode: string;
+  RoadName: string;
+  Description: string;
+  Latitude: number;
+  Longitude: number;
 }
 
 export interface BusArrivalTimeParams {
