@@ -20,9 +20,13 @@ const BusServices = () => {
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
-      if (e.target.value.length === 5) {
+      const isValidCode =
+        busStopArr.filter((busStop) => {
+          return busStop.BusStopCode === e.target.value;
+        }).length > 0;
+
+      if (isValidCode) {
         setIsInvalidCode(false);
-        setLoadStates({ ...loadStates, isTimeLoaded: false });
         setBusStopCode(e.target.value);
       } else {
         setBusStopCode('');
@@ -38,6 +42,7 @@ const BusServices = () => {
       })
       .finally(() => {
         setLoadStates({ ...loadStates, isDescLoaded: true });
+        console.log('Bus data fetched');
       });
   }, []);
 
@@ -71,6 +76,7 @@ const BusServices = () => {
         } else {
           setArrivalTimings([]);
         }
+        console.log('arrival times:', arrivalTimings);
       })
       .finally(() => {
         setLoadStates({ ...loadStates, isTimeLoaded: true });
@@ -79,7 +85,7 @@ const BusServices = () => {
 
   const renderTimings = () => {
     if (!loadStates.isDescLoaded) {
-      return <Text fontSize="3xl">Loading...</Text>;
+      return <Text fontSize="3xl">Fetching bus stops...</Text>;
     } else {
       return busStopCode === '' ? (
         <div></div>
@@ -126,15 +132,19 @@ const BusServices = () => {
 
   return (
     <div className={styles.main}>
-      <Input
-        className={styles.input_bus_stop_code}
-        isInvalid={isInvalidCode}
-        errorBorderColor="red.500"
-        focusBorderColor={isInvalidCode ? 'red.500' : 'blue.500'}
-        placeholder={isInvalidCode ? 'Invalid bus stop number' : 'Please enter a bus stop number'}
-        size="m"
-        onKeyDown={handleKeyDown}
-      />
+      {loadStates.isDescLoaded ? (
+        <Input
+          className={styles.input_bus_stop_code}
+          isInvalid={isInvalidCode}
+          errorBorderColor="red.500"
+          focusBorderColor={isInvalidCode ? 'red.500' : 'blue.500'}
+          placeholder={isInvalidCode ? 'Invalid bus stop number' : 'Please enter a bus stop number'}
+          size="m"
+          onKeyDown={handleKeyDown}
+        />
+      ) : (
+        <></>
+      )}
       <Text className={styles.bus_stop_desc} fontSize="3xl">
         {busStopDesc}
       </Text>
