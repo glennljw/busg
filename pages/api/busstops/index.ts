@@ -25,7 +25,7 @@ const getBusStops = async () => {
       }
     );
 
-    res = res.concat(newRes.data);
+    res = res.concat(newRes.data.value);
     count++;
     if (newRes.data.value.length === 0) isDone = true;
   }
