@@ -58,7 +58,6 @@ const BusServices = ({ busStops }) => {
         } else {
           setArrivalTimings([]);
         }
-        console.log('arrival times:', arrivalTimings);
       })
       .finally(() => {
         setIsTimeLoaded(true);

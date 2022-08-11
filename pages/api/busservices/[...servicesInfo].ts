@@ -62,7 +62,7 @@ export const getBusArrivalTime = async (
 
   const arrivalTimeQueryUrl = busArrivalEndpoint + '?' + params.toString();
 
-  console.log('Query Endpoint: ' + arrivalTimeQueryUrl);
+  // console.log('Query Endpoint: ' + arrivalTimeQueryUrl);
 
   try {
     const response = await axios.get(arrivalTimeQueryUrl, {

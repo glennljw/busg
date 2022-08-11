@@ -10,7 +10,6 @@ export const fetchBusStopDesc = async () => {
   const res = await axios.get('/api/busstops');
   const busStopsData: LTABusStops[] = res.data;
 
-  console.log('bus stop data', busStopsData);
   return busStopsData;
 };
 
