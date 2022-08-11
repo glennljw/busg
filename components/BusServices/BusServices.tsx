@@ -1,7 +1,8 @@
 import styles from './BusServices.module.scss';
 import { BusArrivalEndpointDataType, BusServiceNoAndArrival, LTABusStops } from '../../types/buses';
-import { Grid, GridItem, Input, Text } from '@chakra-ui/react';
-import { useEffect, useMemo, useState } from 'react';
+import { Grid, GridItem, IconButton, Input, Text } from '@chakra-ui/react';
+import { IoMdRefreshCircle } from 'react-icons/io';
+import { useEffect, useState } from 'react';
 import { fetchBusData, parseTime } from '../../library/busservices';
 
 const BusServices = ({ busStops }) => {
@@ -39,43 +40,63 @@ const BusServices = ({ busStops }) => {
   }, [busStopCode]);
 
   useEffect(() => {
-    fetchBusData(busStopCode, serviceNo)
-      .then((res) => {
-        const busServices: BusArrivalEndpointDataType['Services'] = res.data;
-
-        if (busServices?.[0]?.NextBus) {
-          const busServiceTimings = busServices.map((data) => {
-            return {
-              ServiceNo: data.ServiceNo,
-              ArrivalTimeInMins: parseTime(data.NextBus.EstimatedArrival),
-            };
-          });
-
-          busServiceTimings.sort((a, b) => {
-            return +a.ServiceNo - +b.ServiceNo;
-          });
-          setArrivalTimings(busServiceTimings);
-        } else {
-          setArrivalTimings([]);
-        }
-      })
-      .finally(() => {
-        setIsTimeLoaded(true);
-      });
+    fetchTimings();
+    setIsTimeLoaded(true);
   }, [busStopCode, serviceNo]);
+
+  const fetchTimings = async () => {
+    await fetchBusData(busStopCode, serviceNo).then((res) => {
+      const busServices: BusArrivalEndpointDataType['Services'] = res.data;
+
+      if (busServices?.[0]?.NextBus) {
+        const busServiceTimings = busServices.map((data) => {
+          return {
+            ServiceNo: data.ServiceNo,
+            ArrivalTimeInMins: parseTime(data.NextBus.EstimatedArrival),
+          };
+        });
+
+        busServiceTimings.sort((a, b) => {
+          return +a.ServiceNo - +b.ServiceNo;
+        });
+        setArrivalTimings(busServiceTimings);
+      } else {
+        setArrivalTimings([]);
+      }
+    });
+    // .finally(() => {
+    //   setIsTimeLoaded(true);
+    // });
+  };
 
   const renderTimings = () => {
     return busStopCode === '' ? (
       <div></div>
     ) : isTimeLoaded ? (
       <div className={styles.body}>
-        <Grid gap={4} templateColumns="repeat(1, 1fr)">
+        <Grid gap={2} templateColumns="repeat(1, 1fr)">
           <Grid templateColumns="repeat(7, 1fr)">
             <GridItem className={styles.header_container} colSpan={5}>
               <Text className={styles.header_title}>Bus No.</Text>
             </GridItem>
             <GridItem className={styles.header_container} colSpan={2}>
               <Text className={styles.header_title}>Arrival</Text>
+            </GridItem>
+          </Grid>
+          <Grid templateColumns="repeat(7,1fr)">
+            <GridItem className={styles.refresh_button} colStart={7} colSpan={1}>
+              <IconButton
+                variant="outline"
+                size="xs"
+                colorScheme="black"
+                aria-label="Refresh bus timings"
+                fontSize="20px"
+                icon={<IoMdRefreshCircle />}
+                onClick={() => {
+                  console.log('Refresh');
+                  fetchTimings();
+                }}
+              />
             </GridItem>
           </Grid>
         </Grid>

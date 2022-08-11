@@ -27,6 +27,10 @@
       }
     }
 
+    .refresh_button {
+      justify-self: center;
+    }
+
     .bus_no_container {
       position: relative;
       left: 1%;
@@ -36,7 +40,7 @@
       padding: 5%;
       color: colours.$white;
       background-color: colours.$black;
-      width: 50%;
+      width: 60%;
       border: 2px solid colours.$white;
       border-radius: 20px;
 
