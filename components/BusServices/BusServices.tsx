@@ -5,17 +5,13 @@ import { useEffect, useMemo, useState } from 'react';
 import { fetchBusData, parseTime } from '../../library/busservices';
 
 const BusServices = ({ busStops }) => {
-  const [loadStates, setLoadStates] = useState<{ isTimeLoaded: boolean }>({
-    isTimeLoaded: false,
-  });
+  const [isTimeLoaded, setIsTimeLoaded] = useState<boolean>(false);
 
   const [busStopCode, setBusStopCode] = useState<string>('');
   const [busStopDesc, setBusStopDesc] = useState<string>('');
   const [serviceNo, setServiceNo] = useState<string>('');
   const [isInvalidCode, setIsInvalidCode] = useState<boolean>(false);
   const [arrivalTimings, setArrivalTimings] = useState<BusServiceNoAndArrival[]>([]);
-
-  const isLoaded = useMemo(() => loadStates.isTimeLoaded, [loadStates]);
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
@@ -40,7 +36,7 @@ const BusServices = ({ busStops }) => {
     });
     const desc = filteredBusStop[0]?.Description ?? '';
     setBusStopDesc(desc);
-  }, [busStopCode, isLoaded]);
+  }, [busStopCode]);
 
   useEffect(() => {
     fetchBusData(busStopCode, serviceNo)
@@ -65,14 +61,14 @@ const BusServices = ({ busStops }) => {
         console.log('arrival times:', arrivalTimings);
       })
       .finally(() => {
-        setLoadStates({ ...loadStates, isTimeLoaded: true });
+        setIsTimeLoaded(true);
       });
   }, [busStopCode, serviceNo]);
 
   const renderTimings = () => {
     return busStopCode === '' ? (
       <div></div>
-    ) : loadStates.isTimeLoaded ? (
+    ) : isTimeLoaded ? (
       <div className={styles.body}>
         <Grid gap={4} templateColumns="repeat(1, 1fr)">
           <Grid templateColumns="repeat(7, 1fr)">
