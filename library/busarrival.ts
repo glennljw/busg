@@ -2,6 +2,7 @@ import axios from 'axios';
 
 export const fetchBusData = async (busStopCode: string, serviceNo: string) => {
   const serviceInfo = await axios.get(`/api/bus/arrival/${busStopCode}/${serviceNo}`);
+  console.log('Fetch bus data: ', serviceInfo);
   return serviceInfo;
 };
 

@@ -1,24 +1,24 @@
 import { Button, ButtonGroup, Input } from '@chakra-ui/react';
-import { BusPages } from '../../types/buses';
+import { BusTabs } from '../../types/buses';
 
 interface TabProps {
-  setPage: (pageName: BusPages) => void;
+  setTab: (tabName: BusTabs) => void;
 }
 
-const Tab = ({ setPage }: TabProps) => {
+const Tab = ({ setTab }: TabProps) => {
   return (
     <div>
       <ButtonGroup variant="outlined" isAttached>
         <Button
           onClick={() => {
-            setPage('names');
+            setTab('names');
           }}
         >
           Stop name
         </Button>
         <Button
           onClick={() => {
-            setPage('code');
+            setTab('code');
           }}
         >
           Stop no.
