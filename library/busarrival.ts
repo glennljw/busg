@@ -1,16 +1,8 @@
 import axios from 'axios';
-import { LTABusStops } from '../types/buses';
 
 export const fetchBusData = async (busStopCode: string, serviceNo: string) => {
-  const serviceInfo = await axios.get(`/api/busservices/${busStopCode}/${serviceNo}`);
+  const serviceInfo = await axios.get(`/api/bus/arrival/${busStopCode}/${serviceNo}`);
   return serviceInfo;
-};
-
-export const fetchBusStopDesc = async () => {
-  const res = await axios.get('/api/busstops');
-  const busStopsData: LTABusStops[] = res.data;
-
-  return busStopsData;
 };
 
 export const parseTime = (time: string) => {

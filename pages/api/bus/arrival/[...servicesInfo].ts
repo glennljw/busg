@@ -1,8 +1,8 @@
 import axios from 'axios';
 import Cors from 'cors';
 import { NextApiRequest, NextApiResponse } from 'next';
-import { busArrivalEndpoint } from '../../../library/constants';
-import { BusArrivalEndpointDataType, BusArrivalTimeParams } from '../../../types/buses';
+import { busArrivalEndpoint } from '../../../../library/constants';
+import { BusArrivalEndpointDataType, BusArrivalTimeParams } from '../../../../types/buses';
 
 // const cors = Cors({ methods: ['POST', 'GET', 'HEAD'] });
 

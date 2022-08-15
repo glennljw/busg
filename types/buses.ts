@@ -62,3 +62,5 @@ export interface BusServiceNoAndArrival {
   ServiceNo: string;
   ArrivalTimeInMins: number;
 }
+
+export type BusPages = 'main' | 'arrival' | 'names' | 'code';

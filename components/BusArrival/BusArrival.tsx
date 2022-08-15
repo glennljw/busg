@@ -1,14 +1,14 @@
-import styles from './BusServices.module.scss';
+import styles from './BusArrival.module.scss';
 import { BusArrivalEndpointDataType, BusServiceNoAndArrival, LTABusStops } from '../../types/buses';
 import { Grid, GridItem, IconButton, Input, Text } from '@chakra-ui/react';
 import { IoMdRefreshCircle } from 'react-icons/io';
 import { useEffect, useState } from 'react';
-import { fetchBusData, parseTime } from '../../library/busservices';
+import { fetchBusData, parseTime } from '../../library/busarrival';
 
-const BusServices = ({ busStops }) => {
+const BusArrival = ({ busStops, originalCode }) => {
   const [isTimeLoaded, setIsTimeLoaded] = useState<boolean>(false);
 
-  const [busStopCode, setBusStopCode] = useState<string>('');
+  const [busStopCode, setBusStopCode] = useState<string>(originalCode);
   const [busStopDesc, setBusStopDesc] = useState<string>('');
   const [serviceNo, setServiceNo] = useState<string>('');
   const [isInvalidCode, setIsInvalidCode] = useState<boolean>(false);
@@ -64,9 +64,6 @@ const BusServices = ({ busStops }) => {
         setArrivalTimings([]);
       }
     });
-    // .finally(() => {
-    //   setIsTimeLoaded(true);
-    // });
   };
 
   const renderTimings = () => {
@@ -147,4 +144,4 @@ const BusServices = ({ busStops }) => {
   );
 };
 
-export default BusServices;
+export default BusArrival;

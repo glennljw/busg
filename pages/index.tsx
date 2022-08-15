@@ -1,11 +1,11 @@
 import styles from '../styles/Home.module.scss';
-import BusServices from '../components/BusServices/BusServices';
 import axios, { AxiosResponse } from 'axios';
 import { busStopsEndpoint } from '../library/constants';
-import { BusStopsEndpointDataType } from '../types/buses';
+import { BusStopsEndpointDataType, LTABusStops } from '../types/buses';
+import Homepage from '../components/Homepage/Homepage';
 
-export default function Home({ busStops }) {
-  return <BusServices busStops={busStops} />;
+export default function Home({ busStops }: { busStops: LTABusStops[] }) {
+  return <Homepage busStops={busStops} />;
 }
 
 export const getStaticProps = async () => {
