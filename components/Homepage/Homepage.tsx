@@ -34,24 +34,21 @@ const Homepage = ({ busStops }: HomepageProps) => {
   }, [userInput]);
 
   useEffect(() => {
-    if (currTab === 'code') {
-      setCurrBusStopCode(userInput);
-    }
-  }, [currTab, userInput]);
-
-  useEffect(() => {
     setCurrPage('main');
   }, [currTab]);
 
   const isValidInput = (input: string) => {
-    if (currTab === 'names') {
-      return (
-        busStops.filter((stop) =>
-          stop.Description.toLocaleUpperCase().includes(input.toLocaleUpperCase())
-        ).length > 0
-      );
-    } else {
-      return busStops.filter((stop) => stop.BusStopCode === input).length > 0;
+    switch (currTab) {
+      case 'names':
+        return (
+          busStops.filter((stop) =>
+            stop.Description.toLocaleUpperCase().includes(input.toLocaleUpperCase())
+          ).length > 0
+        );
+      case 'code':
+        return busStops.filter((stop) => stop.BusStopCode === input).length > 0;
+      default:
+        return false;
     }
   };
 
@@ -61,14 +58,15 @@ const Homepage = ({ busStops }: HomepageProps) => {
 
   const handleOnKeyDown = (e) => {
     if (e.key === 'Enter') {
-      // const isValid = isValidInput(e.target.value);
-      // if (isValid) {
-      setCurrPage('main');
-      setUserInput(e.target.value);
-      if (currTab === 'code') {
-        setCurrPage('arrival');
+      const isValid = isValidInput(e.target.value);
+      if (isValid) {
+        setCurrPage('main');
+        setUserInput(e.target.value);
+        if (currTab === 'code') {
+          setCurrPage('arrival');
+          setCurrBusStopCode(e.target.value);
+        }
       }
-      // }
     }
   };
 
@@ -92,10 +90,6 @@ const Homepage = ({ busStops }: HomepageProps) => {
     }
   };
 
-  useEffect(() => {
-    console.log('Curr bus stop code: ', currBusStopCode);
-  }, [currBusStopCode]);
-
   const renderPage = () => {
     if (currPage === 'main' && currTab === 'names') {
       return (
@@ -103,7 +97,6 @@ const Homepage = ({ busStops }: HomepageProps) => {
           busStops={filteredBusStops}
           handleBusStopNameClick={handleBusStopNameClick}
           setCurrBusStopCode={(code: string) => setCurrBusStopCode(code)}
-          // setCurrPage={(page: BusPages) => setCurrPage(page)}
         />
       );
     } else if (currPage === 'arrival' && isValidInput(userInput)) {

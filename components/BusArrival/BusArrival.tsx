@@ -24,49 +24,37 @@ const BusArrival = ({ busStops, busStopCode }: BusArrivalProps) => {
     setBusStopDesc(desc);
   }, [busStopCode]);
 
-  useEffect(() => {
-    const resetAndFetch = async () => {
-      let promiseSetIsLoading = new Promise((resolve, reject) => {
-        // setTimeout(() => {
-        setIsLoadingTiming(true);
-        // }, 5000);
-      });
-      await promiseSetIsLoading
-        .then((res) => {
-          fetchTimings();
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    };
-    resetAndFetch();
-  }, [busStopCode, serviceNo]);
+  const resetAndFetch = async () => {
+    setIsLoadingTiming(true);
+    await fetchTimings();
+    setIsLoadingTiming(false);
+  };
 
   const fetchTimings = async () => {
-    await fetchBusData(busStopCode, serviceNo)
-      .then((res) => {
-        const busServices: BusArrivalEndpointDataType['Services'] = res.data;
+    await fetchBusData(busStopCode, serviceNo).then((res) => {
+      const busServices: BusArrivalEndpointDataType['Services'] = res.data;
 
-        if (busServices?.[0]?.NextBus) {
-          const busServiceTimings = busServices.map((data) => {
-            return {
-              ServiceNo: data.ServiceNo,
-              ArrivalTimeInMins: parseTime(data.NextBus.EstimatedArrival),
-            };
-          });
+      if (busServices?.[0]?.NextBus) {
+        const busServiceTimings = busServices.map((data) => {
+          return {
+            ServiceNo: data.ServiceNo,
+            ArrivalTimeInMins: parseTime(data.NextBus.EstimatedArrival),
+          };
+        });
 
-          busServiceTimings.sort((a, b) => {
-            return +a.ServiceNo - +b.ServiceNo;
-          });
-          setArrivalTimings(busServiceTimings);
-        } else {
-          setArrivalTimings([]);
-        }
-      })
-      .finally(() => {
-        setIsLoadingTiming(false);
-      });
+        busServiceTimings.sort((a, b) => {
+          return +a.ServiceNo - +b.ServiceNo;
+        });
+        setArrivalTimings(busServiceTimings);
+      } else {
+        setArrivalTimings([]);
+      }
+    });
   };
+
+  useEffect(() => {
+    resetAndFetch();
+  }, [busStopCode, serviceNo]);
 
   const renderTimings = () => {
     return busStopCode === '' ? (
@@ -102,7 +90,7 @@ const BusArrival = ({ busStops, busStopCode }: BusArrivalProps) => {
         {arrivalTimings.length === 0 && !isLoadingTiming ? (
           <Text fontSize="4xl">No buses available</Text>
         ) : arrivalTimings.length === 0 && isLoadingTiming ? (
-          <Text fontSize="4xl">No buses available</Text>
+          <Text fontSize="4xl">Loading...</Text>
         ) : (
           arrivalTimings.map((timing) => {
             return (
