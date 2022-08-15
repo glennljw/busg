@@ -3,9 +3,15 @@ import axios, { AxiosResponse } from 'axios';
 import { busStopsEndpoint } from '../library/constants';
 import { BusStopsEndpointDataType, LTABusStops } from '../types/buses';
 import Homepage from '../components/Homepage/Homepage';
+import Map from '../components/Map/Map';
 
 export default function Home({ busStops }: { busStops: LTABusStops[] }) {
-  return <Homepage busStops={busStops} />;
+  return (
+    <div>
+      <Homepage busStops={busStops} />
+      <Map />
+    </div>
+  );
 }
 
 export const getStaticProps = async () => {
