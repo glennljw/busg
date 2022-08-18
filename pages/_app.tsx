@@ -11,7 +11,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={theme}>
       <Head>
-        <title>SG Bus</title>
+        <title>Busg</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <Component {...pageProps} />
