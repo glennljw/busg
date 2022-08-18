@@ -2,33 +2,30 @@
 
 .main {
   position: relative;
-  height: 100vh;
-
-  .input_bus_stop_code {
-    display: flex;
-    border: 2px solid rgba(0, 0, 0, 0.8);
-    border-radius: 8px;
-    margin: 5px;
-    width: 72vw;
-    text-align: left;
-    padding: 5px;
-    font-family: Montserrat, sans-serif;
-  }
+  height: 30vh;
+  overflow: auto;
 
   .bus_stop_desc {
+    font-size: 20px;
     font-family: Montserrat, sans-serif;
   }
 
   .body {
     .header_container {
+      height: 100%;
       .header_title {
         font-family: 'Montserrat', sans-serif;
-        font-size: 24px;
+        font-size: 10px;
       }
     }
 
-    .refresh_button {
+    .refresh_button_container {
       justify-self: center;
+      .refresh_button_icon {
+        object-fit: contain;
+        height: 70%;
+        width: 70%;
+      }
     }
 
     .bus_no_container {
@@ -45,7 +42,7 @@
       border-radius: 20px;
 
       .bus_no {
-        font-size: 48px;
+        font-size: 20px;
         font-family: 'Montserrat', sans-serif;
       }
     }
@@ -57,14 +54,14 @@
       align-items: center;
       color: colours.$black;
       background-color: colours.$white;
-      width: 90%;
+      width: 50%;
       border: 2px solid colours.$black;
       border-radius: 20px;
-      padding: 5px;
+      padding: 5%;
 
       .arr_time {
         font-family: 'Montserrat', sans-serif;
-        font-size: clamp(40px, 50px, 90%);
+        font-size: clamp(10px, 16px, 90%);
       }
     }
   }

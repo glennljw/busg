@@ -1,16 +1,32 @@
 import styles from './Homepage.module.scss';
-import { Input } from '@chakra-ui/react';
-import { useEffect, useMemo, useState } from 'react';
+import {
+  Drawer,
+  DrawerBody,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerCloseButton,
+  IconButton,
+  Input,
+  useDisclosure,
+  Button,
+} from '@chakra-ui/react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { BusPages, BusTabs, LTABusStops } from '../../types/buses';
 import BusArrival from '../BusArrival/BusArrival';
 import BusStops from '../BusStops/BusStops';
 import Tab from '../Tab/Tab';
+import Map from '../Map/Map';
+import { Search2Icon } from '@chakra-ui/icons';
 
 interface HomepageProps {
   busStops: LTABusStops[];
 }
 
 const Homepage = ({ busStops }: HomepageProps) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const btnRef = useRef();
   const [currTab, setCurrTab] = useState<BusTabs>('names');
   const [currBusStopCode, setCurrBusStopCode] = useState<string>('');
   const [currPage, setCurrPage] = useState<BusPages>('main');
@@ -107,10 +123,35 @@ const Homepage = ({ busStops }: HomepageProps) => {
   };
 
   return (
-    <div>
-      <Tab setTab={(tabName) => setCurrTab(tabName)} />
-      {renderInput()}
-      {renderPage()}
+    <div className={styles.homepage}>
+      <Map
+        busStops={busStops}
+        setCurrBusStopCode={setCurrBusStopCode}
+        setCurrPage={setCurrPage}
+        onBusStopClick={onOpen}
+      />
+      <IconButton
+        className={styles.drawer_button}
+        variant="outline"
+        colorScheme="black"
+        ref={btnRef}
+        onClick={onOpen}
+        aria-label="Search bus stops"
+        icon={<Search2Icon />}
+        size="sm"
+      />
+      <Drawer isOpen={isOpen} onClose={onClose} placement="bottom" finalFocusRef={btnRef} size="md">
+        <DrawerOverlay />
+        <DrawerContent>
+          <DrawerCloseButton />
+          <DrawerHeader>Search bus stops</DrawerHeader>
+          <DrawerBody>
+            <Tab setTab={(tabName) => setCurrTab(tabName)} />
+            {renderInput()}
+            {renderPage()}
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
     </div>
   );
 };

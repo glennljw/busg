@@ -1,5 +1,6 @@
-import { Button, ButtonGroup, Input } from '@chakra-ui/react';
+import { Button, ButtonGroup } from '@chakra-ui/react';
 import { BusTabs } from '../../types/buses';
+import styles from './Tab.module.scss';
 
 interface TabProps {
   setTab: (tabName: BusTabs) => void;
@@ -7,21 +8,21 @@ interface TabProps {
 
 const Tab = ({ setTab }: TabProps) => {
   return (
-    <div>
-      <ButtonGroup variant="outlined" isAttached>
+    <div className={styles.button_group_container}>
+      <ButtonGroup variant="outline" isAttached spacing={20}>
         <Button
           onClick={() => {
             setTab('names');
           }}
         >
-          Stop name
+          Stop Name
         </Button>
         <Button
           onClick={() => {
             setTab('code');
           }}
         >
-          Stop no.
+          Stop No.
         </Button>
       </ButtonGroup>
     </div>

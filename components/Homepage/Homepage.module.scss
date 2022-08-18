@@ -1,0 +1,12 @@
+@use '/styles/colours' as colours;
+
+.homepage {
+  height: 100vh;
+  .drawer_button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 10;
+    background-color: white;
+  }
+}

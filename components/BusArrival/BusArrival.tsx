@@ -64,17 +64,18 @@ const BusArrival = ({ busStops, busStopCode }: BusArrivalProps) => {
         <Grid gap={2} templateColumns="repeat(1, 1fr)">
           <Grid templateColumns="repeat(7, 1fr)">
             <GridItem className={styles.header_container} colSpan={5}>
-              <Text className={styles.header_title}>Bus No.</Text>
+              <Text className={styles.header_title}>Service No.</Text>
             </GridItem>
             <GridItem className={styles.header_container} colSpan={2}>
-              <Text className={styles.header_title}>Arrival</Text>
+              <Text className={styles.header_title}>Next Bus</Text>
             </GridItem>
           </Grid>
           <Grid templateColumns="repeat(7,1fr)">
-            <GridItem className={styles.refresh_button} colStart={7} colSpan={1}>
+            <GridItem className={styles.refresh_button_container} colStart={7} colSpan={1}>
               <IconButton
+                className={styles.refresh_button_icon}
                 variant="outline"
-                size="xs"
+                size="xxs"
                 colorScheme="black"
                 aria-label="Refresh bus timings"
                 fontSize="20px"

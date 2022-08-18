@@ -9,7 +9,6 @@ export default function Home({ busStops }: { busStops: LTABusStops[] }) {
   return (
     <div>
       <Homepage busStops={busStops} />
-      <Map busStops={busStops} />
     </div>
   );
 }
