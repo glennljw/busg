@@ -6,7 +6,7 @@ Keep track of real-time bus arrival timings all over Singapore.
 
 ## Getting Started
 
-Navigate to the app [here](https://sg-bus-glennljw.vercel.app).
+Navigate to the app [here](https://busg.vercel.app).
 
 Start by clicking on:
 1. The search icon on the top-left, or
