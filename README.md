@@ -6,6 +6,7 @@ Keep track of real-time bus arrival timings all over Singapore.
 
 ## Getting Started
 
+Ensure location services are enabled on your device.
 Navigate to the app [here](https://busg.vercel.app).
 
 Start by clicking on:
