@@ -114,6 +114,14 @@
   box-shadow:
     0 0 0 2px rgba(59, 130, 246, 0.35),
     0 2px 6px rgba(0, 0, 0, 0.35);
+  // Purely decorative -- it sits at the map's initial center, exactly where
+  // users naturally start a drag-to-pan gesture. Without this, some browsers
+  // treat a click-drag starting on the div as "drag this element" (a ghost
+  // image following the cursor) instead of letting it fall through to the
+  // map's own pan handling underneath.
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 .map_popup {
