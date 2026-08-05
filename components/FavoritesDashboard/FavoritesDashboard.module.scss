@@ -1,0 +1,60 @@
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-bottom: 1rem;
+}
+
+.card {
+  padding: 0.7rem 0.85rem;
+  border-radius: 12px;
+  background-color: var(--color-surface-alt);
+  cursor: pointer;
+
+  &:hover {
+    background-color: var(--color-border);
+  }
+}
+
+.card_header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.card_title {
+  font-weight: 600;
+  font-family: var(--font-montserrat), sans-serif;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.card_services {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 0.4rem;
+}
+
+.chip {
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-family: var(--font-montserrat), sans-serif;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background-color: var(--color-pill-bg);
+  color: var(--color-pill-text);
+}
+
+.card_status {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.empty_message {
+  padding: 1.5rem 0;
+  text-align: center;
+  color: var(--color-text-muted);
+}

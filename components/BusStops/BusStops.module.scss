@@ -1,3 +1,63 @@
-.bus_stop_names {
-  width: 100%;
+.bus_stop_list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-bottom: 1rem;
+}
+
+.bus_stop_row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.bus_stop_button {
+  flex: 1;
+  min-width: 0;
+  height: auto;
+  padding: 0.6rem 0.75rem;
+  border-radius: 10px;
+  text-align: left;
+}
+
+.favorite_button {
+  flex: 0 0 auto;
+}
+
+.bus_stop_row_text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  overflow: hidden;
+  min-width: 0;
+}
+
+.bus_stop_name {
+  font-weight: 600;
+  font-family: var(--font-montserrat), sans-serif;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.bus_stop_meta {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.empty_message {
+  padding: 1.5rem 0;
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.show_more_button {
+  margin-top: 0.5rem;
+  color: var(--color-text-muted);
 }

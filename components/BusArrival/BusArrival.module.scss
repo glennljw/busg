@@ -1,68 +1,161 @@
-@use 'styles/colours' as colours;
-
 .main {
   position: relative;
-  height: 30vh;
+  height: 34dvh;
   overflow: auto;
+  padding-bottom: 1rem;
+
+  .title_row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 0.25rem;
+  }
+
+  .title_actions {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex: 0 0 auto;
+
+    button {
+      background-color: var(--color-surface-alt) !important;
+    }
+  }
 
   .bus_stop_desc {
-    font-size: 20px;
-    font-family: Montserrat, sans-serif;
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 1.2rem;
+    font-weight: 600;
+    font-family: var(--font-montserrat), sans-serif;
+  }
+
+  .updated_text {
+    font-size: 0.7rem;
+    color: var(--color-text-muted);
+    margin-bottom: 0.25rem;
   }
 
   .body {
     .header_container {
       height: 100%;
+      display: flex;
+      align-items: center;
+
       .header_title {
-        font-family: 'Montserrat', sans-serif;
-        font-size: 10px;
+        font-family: var(--font-montserrat), sans-serif;
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--color-text-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
       }
     }
 
     .refresh_button_container {
-      justify-self: center;
-      .refresh_button_icon {
-        object-fit: contain;
-        height: 70%;
-        width: 70%;
-      }
+      justify-self: end;
+    }
+
+    .status_text {
+      padding: 1.5rem 0;
+      text-align: center;
+      color: var(--color-text-muted);
     }
 
     .bus_no_container {
-      position: relative;
-      left: 1%;
       display: flex;
       justify-content: flex-start;
       align-items: center;
-      padding: 5%;
-      color: colours.$white;
-      background-color: colours.$black;
-      width: 60%;
-      border: 2px solid colours.$white;
-      border-radius: 20px;
+      padding: 0.4rem 0.9rem;
+      margin: 3px 0;
+      color: var(--color-pill-text);
+      background-color: var(--color-pill-bg);
+      width: fit-content;
+      border: none;
+      border-radius: 999px;
+      font: inherit;
+      cursor: pointer;
+      transition: opacity 0.15s ease;
+
+      &:hover {
+        opacity: 0.85;
+      }
+
+      &:disabled {
+        cursor: default;
+        opacity: 0.6;
+      }
 
       .bus_no {
-        font-size: 20px;
-        font-family: 'Montserrat', sans-serif;
+        font-size: 18px;
+        font-weight: 600;
+        font-family: var(--font-montserrat), sans-serif;
+      }
+
+      .crowd_dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        margin-left: 8px;
+        flex: 0 0 auto;
+      }
+
+      .crowd_low {
+        background-color: var(--color-crowd-low);
+      }
+
+      .crowd_mid {
+        background-color: var(--color-crowd-mid);
+      }
+
+      .crowd_high {
+        background-color: var(--color-crowd-high);
+      }
+
+      .accessible_icon {
+        margin-left: 6px;
+        font-size: 14px;
+        flex: 0 0 auto;
       }
     }
 
     .arr_time_container {
       display: flex;
-      justify-content: center;
-      justify-self: center;
+      justify-content: flex-end;
       align-items: center;
-      color: colours.$black;
-      background-color: colours.$white;
-      width: 50%;
-      border: 2px solid colours.$black;
-      border-radius: 20px;
-      padding: 5%;
+    }
 
-      .arr_time {
-        font-family: 'Montserrat', sans-serif;
-        font-size: clamp(10px, 16px, 90%);
-      }
+    .arr_time {
+      font-family: var(--font-montserrat), sans-serif;
+      font-weight: 600;
+      font-size: 14px;
+      padding: 0.3rem 0.7rem;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .urgency_arrived {
+      background-color: var(--color-urgency-arrived-bg);
+      color: var(--color-urgency-arrived-text);
+    }
+
+    .urgency_soon {
+      background-color: var(--color-urgency-soon-bg);
+      color: var(--color-urgency-soon-text);
+    }
+
+    .urgency_later {
+      background-color: var(--color-urgency-later-bg);
+      color: var(--color-urgency-later-text);
+    }
+
+    .urgency_left {
+      background-color: var(--color-urgency-left-bg);
+      color: var(--color-urgency-left-text);
     }
   }
 }
