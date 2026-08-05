@@ -106,10 +106,19 @@ const Map = ({
     if (mapRef.current || !location) return;
 
     mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_KEY ?? '';
-    // Disable Mapbox's anonymous telemetry beacon -- it's routinely blocked by
-    // ad blockers/privacy extensions, which surfaces as a noisy CORS error in
-    // the console even though it has no effect on the map itself.
-    mapboxgl.config.EVENTS_URL = null;
+    // Best-effort: disable Mapbox's anonymous telemetry beacon so it doesn't
+    // surface a noisy CORS error when blocked by an ad blocker/privacy
+    // extension. In this version EVENTS_URL is a getter-only property
+    // (computed from API_URL) rather than a plain field, so a direct
+    // assignment throws a TypeError -- and since this runs before the map is
+    // constructed, that would have broken map initialization entirely. This
+    // is never allowed to do that: it's wrapped and silently no-ops if the
+    // property shape changes in a future mapbox-gl version.
+    try {
+      Object.defineProperty(mapboxgl.config, 'EVENTS_URL', { value: null, configurable: true });
+    } catch {
+      // Not critical -- the beacon being blocked has no effect on the map.
+    }
 
     const map = new mapboxgl.Map({
       container: mapContainer.current as HTMLDivElement,
